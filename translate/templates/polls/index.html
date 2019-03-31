@@ -1,3 +1,19 @@
 <h1>Original Text</h1>
-<input type="text"/>
-<button/>
+<input id="input" type="text"/>
+<button onclick="requestTranslation()">Übersetzen</button>
+<p id="translation">Übersetzung</p>
+
+<script>
+function requestTranslation() {
+    var original = document.getElementById("input").value;
+    var url = 'get_translation/';
+    var request = new XMLHttpRequest();
+    request.open('POST', url);
+    request.responseType = 'text';
+    request.onload = function() {
+        document.getElementById("translation").innerHTML = request.response;
+    };
+    var params = 'original=' + original;
+    request.send(params);
+}
+</script>

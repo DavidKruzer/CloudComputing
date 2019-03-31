@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Translation
 from django.template import loader
+from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
 def index(request):
@@ -14,4 +15,5 @@ def index(request):
 def detail(request, translation_id):
     translation = get_object_or_404(Translation, pk=translation_id)
     return render(request, 'polls/translation.html', {'translation': translation})
-from django.shortcuts import render
+def translation(request):
+    return HttpResponse("DES ISCH ENGLISCH DU DEPP");
