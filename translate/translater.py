@@ -4,18 +4,17 @@ from .models import Translation
 
 translate_client = google_translate.Client()
 
-def translate(original):
-    translations = Translation.objects.filter(original=original)
+def translate(original, target_language):
+    translations = Translation.objects.filter(target_language=target_language).filter(original=original)
     if len(translations) > 0:
         return translations[0].translation
-    translation = cloud_translate(original);
-    Translation.objects.create(original = original, translation = translation)
+    translation = cloud_translate(original, target_language);
+    Translation.objects.create(original = original, translation = translation, target_language = target_language)
     return translation;
-def cloud_translate(original):
+def cloud_translate(original, target_language):
     # The target language
-    target = 'en'
     
     translation = translate_client.translate(
         original,
-        target_language=target)
+        target_language=target_language)
     return translation['translatedText'];

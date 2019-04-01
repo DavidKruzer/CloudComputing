@@ -18,5 +18,6 @@ def detail(request, translation_id):
     return render(request, 'polls/translation.html', {'translation': translation})
 def translation(request):
     original = request.POST.get("original", "");
-    translation = translate(original);
+    target_language = request.POST.get("target_language", "de");
+    translation = translate(original, target_language);
     return HttpResponse(translation);
