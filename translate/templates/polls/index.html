@@ -1,6 +1,7 @@
-<h1>Original Text</h1>
+<h2>Original Text</h2>
 <input id="input" type="text"/>
 <button onclick="requestTranslation()">Übersetzen</button>
+<h2>Übersetzung</h2>
 <p id="translation">Übersetzung</p>
 
 <script>
@@ -8,11 +9,6 @@ function requestTranslation() {
     var original = document.getElementById("input").value;
     var url = 'get_translation/';
     var request = new XMLHttpRequest();
-    /*request.open('POST', url);
-    request.responseType = 'text';
-    request.onload = function() {
-        document.getElementById("translation").innerHTML = request.response;
-    };*/
     var params = 'original=' + original;
     request.open("POST", url, true);
 

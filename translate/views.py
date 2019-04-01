@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Translation
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect
+from .translater import translate
 
 # Create your views here.
 def index(request):
@@ -17,4 +18,5 @@ def detail(request, translation_id):
     return render(request, 'polls/translation.html', {'translation': translation})
 def translation(request):
     original = request.POST.get("original", "");
-    return HttpResponse(original);
+    translation = translate(original);
+    return HttpResponse(translation);
