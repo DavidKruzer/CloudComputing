@@ -1,24 +1,88 @@
-<h2>Original Text</h2>
-<input id="input" type="text"/>
-<button onclick="requestTranslation()">Übersetzen</button>
- <select id="target_language">
-  <option value="de">Deutsch</option>
-  <option value="fr">Französisch</option>
-  <option value="en">Englisch</option>
-</select> 
-<h2>Übersetzung</h2>
-<p id="translation">Übersetzung</p>
+<!doctype html>
+<html>
 
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+ .row {
+  display: flex;
+}
+body {
+margin: 0;
+padding: 0;
+}
+.column {
+  flex: 50%;
+}
+#header {
+width:100%;
+background-color: coral;
+  top:0;
+  left:0;
+}
+#heading {
+  font-size: 5vw;
+  padding-left: 1vw;
+}
+#creators {
+  font-size: 2vw;
+  padding-right:1vw;
+  text-align: right;
+}
+
+.mytextfield{
+    width:100%;
+    height:30vw;
+    resize:none;
+}
+
+</style>
+
+</head>
+
+<body>
+<header>
+<div id="header">
+<p id="heading">Cloud Computing Translater</p>
+<p id="creators">by Volkan Kilic and David Kruse</p>
+</div>
+</header>
+ <div class="row">
+  <div class="column">
+  <h2>Original Text</h2>
+  <h3>Sprache:</h3>
+  <select id="source_language">
+    <option value="">Automatisch</option>
+    <option value="de">Deutsch</option>
+    <option value="fr">Französisch</option>
+    <option value="en">Englisch</option>
+   </select>
+    <textarea id="input" class="mytextfield"></textarea>
+    <button onclick="requestTranslation()">Übersetzen</button>
+    <select id="target_language">
+    <option value="de">Deutsch</option>
+    <option value="fr">Französisch</option>
+    <option value="en">Englisch</option>
+    </select>
+    </div>
+  <div class="column">
+    <h2>Übersetzung</h2>
+    <p id="translation">Übersetzung</p>
+  </div>
+</div>
 <script>
 function requestTranslation() {
     var original = document.getElementById("input").value;
     var url = 'get_translation/';
     var request = new XMLHttpRequest();
     var target_language = document.getElementById("target_language").value;
-    var params = 'original=' + original + '&target_language=' + target_language;
+    var source_language = document.getElementById("source_language").value;
+    var params = 'original=' + original + '&target_language=' + target_language + '&source_language=' + source_language;
     request.open("POST", url, true);
 
-    request.responseType = 'text';
+    request.responseType = 'json';
     
     //Send the proper header information along with the request
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -26,9 +90,11 @@ function requestTranslation() {
     request.setRequestHeader("Connection", "close");
 
     request.onload = function() {
-        document.getElementById("translation").innerHTML = request.response;
+        document.getElementById("translation").innerHTML = request.response.text;
+        document.getElementById("source_language").value = request.response.language;
     };
 
     request.send(params);
 }
 </script>
+</body>

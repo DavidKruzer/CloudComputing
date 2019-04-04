@@ -4,6 +4,7 @@ from .models import Translation
 from django.template import loader
 from django.views.decorators.csrf import csrf_protect
 from .translater import translate
+from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
@@ -17,7 +18,8 @@ def detail(request, translation_id):
     translation = get_object_or_404(Translation, pk=translation_id)
     return render(request, 'polls/translation.html', {'translation': translation})
 def translation(request):
-    original = request.POST.get("original", "");
-    target_language = request.POST.get("target_language", "de");
-    translation = translate(original, target_language);
-    return HttpResponse(translation);
+    original = request.POST.get("original", "")
+    target_language = request.POST.get("target_language", "de")
+    source_language = request.POST.get("source_language", "")
+    translation = translate(original, source_language, target_language)
+    return JsonResponse(translation)
