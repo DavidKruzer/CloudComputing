@@ -5,7 +5,17 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Cloud Übersetzer</title>
+
+</head>
+
+<body>
 <style>
+
+* {
+font-family: "Karla";
+}
+
  .row {
   display: flex;
 }
@@ -15,8 +25,9 @@ padding: 0;
 }
 .column {
   flex: 50%;
+  padding:10pt;
 }
-#header {
+header {
 width:100%;
 background-color: coral;
   top:0;
@@ -25,6 +36,7 @@ background-color: coral;
 #heading {
   font-size: 5vw;
   padding-left: 1vw;
+  margin:0;
 }
 #creators {
   font-size: 2vw;
@@ -32,44 +44,51 @@ background-color: coral;
   text-align: right;
 }
 
-.mytextfield{
+.language {
+    display:inline-block;
+    margin-right:10pt;
+    font-size: 15pt;
+}
+
+textarea{
     width:100%;
-    height:30vw;
-    resize:none;
+    height: 150pt;
+    resize: none;
+    margin-bottom: 10pt;
+    padding: 2pt;
+}
+
+h2 {
+    margin:0pt;
 }
 
 </style>
-
-</head>
-
-<body>
 <header>
-<div id="header">
 <p id="heading">Cloud Computing Translater</p>
 <p id="creators">by Volkan Kilic and David Kruse</p>
-</div>
 </header>
  <div class="row">
   <div class="column">
-  <h2>Original Text</h2>
-  <h3>Sprache:</h3>
+  <h2>Original</h2>
+  <p class="language">Sprache:</p>
   <select id="source_language">
     <option value="">Automatisch</option>
     <option value="de">Deutsch</option>
     <option value="fr">Französisch</option>
     <option value="en">Englisch</option>
    </select>
-    <textarea id="input" class="mytextfield"></textarea>
-    <button onclick="requestTranslation()">Übersetzen</button>
+    <textarea id="input"></textarea>
+    <button style="float: right;" onclick="requestTranslation()">Übersetzen</button>
+    </div>
+  <div class="column">
+    <h2>Übersetzung</h2>
+    <p class="language">Sprache:</p>
     <select id="target_language">
     <option value="de">Deutsch</option>
     <option value="fr">Französisch</option>
     <option value="en">Englisch</option>
     </select>
-    </div>
-  <div class="column">
-    <h2>Übersetzung</h2>
-    <p id="translation">Übersetzung</p>
+    <textarea readonly id="translation"></textarea>
   </div>
 </div>
 <script>
