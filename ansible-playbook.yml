@@ -1,0 +1,40 @@
+---
+- hosts: webservers
+  become: yes
+  tasks:
+  - name: install python3
+    apt:
+      name: python3,python3-pip
+  - name: install dependencies
+    pip:
+      name: Django,google_api_translate
+      executable: pip3
+  - name: install git
+    apt:
+      name: git
+  - name: clone webserver from git
+    git:
+      repo: 'https://github.com/DavidKruzer/CloudComputing'
+      dest: /opt/webserver
+      
+  - name: set environment variable for debug = false
+    lineinfile:
+      dest: '/etc/environment'
+      line: 'export DJANGO_DEBUG=False'
+  - name: set environment locally
+    shell: 'export DJANGO_DEBUG=False'
+  - name: set environment variable for host = host ip
+    lineinfile:
+      dest: '/etc/environment'
+      line: 'export DJANGO_HOST={{inventory_hostname}}'
+  - name: copy authentication for google translate api
+    copy:
+      src: authentication.json
+      dest: /opt/webserver/authentication.json
+  - name: set environment variable for GOOGLE_APPLICATION_CREDENTIALS
+    lineinfile:
+      dest: '/etc/environment'
+      line: 'export GOOGLE_APPLICATION_CREDENTIALS="/opt/webserver/authentication.json"'
+  - name: start webserver
+    shell: 'export DJANGO_HOST={{inventory_hostname}}; export DJANGO_DEBUG=False; export GOOGLE_APPLICATION_CREDENTIALS="/opt/webserver/authentication.json"; nohup python3 /opt/webserver/manage.py runserver 0.0.0.0:8000 &'
+...
