@@ -37,4 +37,7 @@
       line: 'export GOOGLE_APPLICATION_CREDENTIALS="/opt/webserver/authentication.json"'
   - name: start webserver
     shell: 'export DJANGO_HOST={{inventory_hostname}}; export DJANGO_DEBUG=False; export GOOGLE_APPLICATION_CREDENTIALS="/opt/webserver/authentication.json"; nohup python3 /opt/webserver/manage.py runserver 0.0.0.0:8000 &'
+  - name: test webserver
+    uri:
+      url: 'http://{{inventory_hostname}}:8000'
 ...
